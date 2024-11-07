@@ -8,11 +8,11 @@ pipeline {
             }
         }
         
-        stage('Instalar dependencias') {
+        stage('Compilar proyecto') {
             steps {
                 script {
-                    // Instalar dependencias (ajusta según tu proyecto)
-                    sh 'pip install -r requirements.txt || true'
+                    // Compilar el proyecto con Maven
+                    sh 'mvn clean compile'
                 }
             }
         }
@@ -20,8 +20,8 @@ pipeline {
         stage('Ejecutar pruebas') {
             steps {
                 script {
-                    // Ejecutar pruebas (ajusta el nombre del archivo de prueba)
-                    sh 'pytest'
+                    // Ejecutar pruebas con Maven
+                    sh 'mvn test'
                 }
             }
         }
@@ -29,10 +29,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pruebas ejecutadas exitosamente.'
+            echo 'El pipeline se ejecutó exitosamente.'
         }
         failure {
-            echo 'Las pruebas fallaron. Revisa los resultados.'
+            echo 'El pipeline falló. Revisa los errores.'
         }
     }
 }
