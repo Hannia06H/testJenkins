@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                git url: 'https://github.com/Hannia06H/testJenkins.git', branch: 'main'
+            }
+        }
+        
+        stage('Instalar dependencias') {
+            steps {
+                script {
+                    // Instalar dependencias (ajusta según tu proyecto)
+                    sh 'pip install -r requirements.txt || true'
+                }
+            }
+        }
+
+        stage('Ejecutar pruebas') {
+            steps {
+                script {
+                    // Ejecutar pruebas (ajusta el nombre del archivo de prueba)
+                    sh 'pytest'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pruebas ejecutadas exitosamente.'
+        }
+        failure {
+            echo 'Las pruebas fallaron. Revisa los resultados.'
+        }
+    }
+}
